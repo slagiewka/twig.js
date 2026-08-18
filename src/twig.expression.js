@@ -297,7 +297,7 @@ module.exports = function (Twig) {
             parse(token, stack, context) {
                 const state = this;
 
-                if (token.key) {
+                if ('key' in token) {
                     // Handle ternary ':' operator
                     stack.push(token);
                 } else if (token.params) {
@@ -753,7 +753,7 @@ module.exports = function (Twig) {
                         break;
                     }
 
-                    if (token && token.type && (token.type === Twig.expression.type.operator.binary || token.type === Twig.expression.type.operator.unary) && token.key) {
+                    if (token && token.type && (token.type === Twig.expression.type.operator.binary || token.type === Twig.expression.type.operator.unary) && 'key' in token) {
                         if (!hasValue) {
                             throw new Twig.Error('Missing value for key \'' + token.key + '\' in object definition.');
                         }
@@ -1413,7 +1413,7 @@ module.exports = function (Twig) {
 
                     while (len-- > 0) {
                         loopTokenFixup = loopTokenFixups[len];
-                        if (loopTokenFixup.params && loopTokenFixup.key) {
+                        if (loopTokenFixup.params && 'key' in loopTokenFixup) {
                             delete loopTokenFixup.key;
                         }
                     }
