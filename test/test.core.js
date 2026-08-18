@@ -210,6 +210,21 @@ describe('Twig.js Core ->', function () {
         twig({data: '{% set at = {0: "value"} %}{{ at.0 }}'}).render().should.equal('value');
     });
 
+    it('should keep a computed object key that evaluates to 0 on re-render', function () {
+        // A computed key like (a) resolves to a falsy value (0). The pair must be
+        // filed under key 0 on the first render, and the same compiled template must
+        // render again without dropping the cached key ("Unexpected end of object").
+        const template = twig({data: '{% set m = {(a): "valA", (b): "valB"} %}[{{ m[0] }}|{{ m[10] }}]'});
+        template.render({a: 0, b: 10}).should.equal('[valA|valB]');
+        template.render({a: 0, b: 10}).should.equal('[valA|valB]');
+    });
+
+    it('should keep a computed object key that evaluates to an empty string on re-render', function () {
+        const template = twig({data: '{% set m = {(a): "valEmpty", (b): "valK"} %}[{{ m[ek] }}|{{ m[kk] }}]'});
+        template.render({a: '', b: 'k', ek: '', kk: 'k'}).should.equal('[valEmpty|valK]');
+        template.render({a: '', b: 'k', ek: '', kk: 'k'}).should.equal('[valEmpty|valK]');
+    });
+
     it('should support set capture', function () {
         twig({data: '{% set foo %}bar{% endset %}{{foo}}'}).render().should.equal('bar');
     });
