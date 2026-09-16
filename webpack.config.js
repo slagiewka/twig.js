@@ -11,9 +11,7 @@ const commonModule = {
         loader: "babel-loader",
         options: {
             targets: ">= 0%",
-            presets: [["@babel/preset-env", {
-                bugfixes: true
-            }]],
+            presets: ["@babel/preset-env"],
             plugins: [
                 "@babel/plugin-transform-modules-commonjs",
                 "@babel/plugin-transform-runtime"
