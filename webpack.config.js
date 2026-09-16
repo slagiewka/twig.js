@@ -10,7 +10,10 @@ const commonModule = {
     use: {
         loader: "babel-loader",
         options: {
-            presets: ["@babel/preset-env"],
+            targets: ">= 0%",
+            presets: [["@babel/preset-env", {
+                bugfixes: true
+            }]],
             plugins: [
                 "@babel/plugin-transform-modules-commonjs",
                 "@babel/plugin-transform-runtime"
